@@ -34,7 +34,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{background:var(--bg)}
-body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16.5px;line-height:1.5;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 70px;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16.5px;line-height:1.5;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 110px;-webkit-tap-highlight-color:transparent}
 .wrap{max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:34px;padding-top:16px}
 button{font:inherit;color:inherit;cursor:pointer}
 button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
@@ -153,8 +153,100 @@ h2{font-weight:900;font-size:27px;line-height:1.12;margin:0;letter-spacing:-.01e
 </style>
 
 <style>.vid{display:block;width:100%;max-width:420px;margin:0 auto;aspect-ratio:9/16;max-height:78vh;border-radius:26px;background:#1a1228;box-shadow:0 20px 50px rgba(40,20,80,.25)}</style>
+<style>
+/* abertura */
+.splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;color:#fff;
+ padding:max(24px,env(safe-area-inset-top)) 24px max(24px,env(safe-area-inset-bottom));
+ background:radial-gradient(80% 60% at 90% 0%,#E85A9B 0%,transparent 60%),linear-gradient(165deg,#7A55DA,#4A2E9C);transition:opacity .5s ease,visibility .5s}
+.splash.out{opacity:0;visibility:hidden}
+.splash h1{margin:6px 0 0;font-family:var(--font);font-weight:900;font-size:44px;letter-spacing:-.02em;line-height:1}
+.splash p{margin:0;font-weight:800;font-size:17px;color:#FFD66B}
+.splash .go{margin-top:18px;min-height:52px;padding:0 28px;border-radius:999px;border:0;background:#fff;color:#4A2E9C;font:900 17px var(--font)}
+.splash .bub{position:absolute;border-radius:50%}
+.doll{width:240px;height:auto;overflow:visible}
+.doll .d-body{transform-origin:100px 250px;animation:d-sway 3.2s ease-in-out infinite}
+.doll .d-head{transform-origin:100px 115px;animation:d-nod 3.2s ease-in-out infinite}
+.doll .d-belly{transform-box:fill-box;transform-origin:center;animation:d-breathe 2.4s ease-in-out infinite}
+.doll .d-eyes{transform-box:fill-box;transform-origin:center;animation:d-blink 3.6s infinite}
+.doll .d-hearts path{transform-box:fill-box;transform-origin:center;animation:d-rise 2.8s ease-out infinite;opacity:0}
+.doll .d-hearts .h2{animation-delay:.9s}.doll .d-hearts .h3{animation-delay:1.8s}
+@keyframes d-sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes d-nod{0%,100%{transform:rotate(2deg)}50%{transform:rotate(-3deg)}}
+@keyframes d-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes d-blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes d-rise{0%{opacity:0;transform:translateY(10px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-60px) scale(1.1)}}
+@media (prefers-reduced-motion: reduce){.doll *{animation:none!important}.doll .d-hearts path{opacity:1}}
+
+/* emergência fixa */
+.fab-sos{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;width:64px;height:64px;border-radius:50%;border:0;background:#C0362C;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font:900 13px var(--font);box-shadow:0 10px 26px rgba(192,54,44,.45);gap:1px}
+.fab-sos svg{width:22px;height:22px}
+.sos-scrim{position:fixed;inset:0;z-index:60;background:rgba(20,10,30,.55);display:flex;align-items:flex-end;justify-content:center}
+.sos-sheet{width:100%;max-width:600px;background:var(--surface);border-radius:28px 28px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.sos-sheet h3{margin:0 0 4px;font-weight:900;font-size:20px}
+.call{display:flex;align-items:center;gap:14px;text-decoration:none;color:#fff;background:var(--c);border-radius:18px;padding:14px 16px;min-height:64px}
+.call b{font-size:30px;font-weight:900;line-height:1;min-width:64px}
+.call span{font-weight:800;font-size:15px;line-height:1.3}
+.sbtn{min-height:50px;border-radius:16px;border:2px solid var(--line);background:var(--surface2);color:var(--fg);font:800 15px var(--font)}
+a.nb{text-decoration:none}
+/* registro */
+.reg{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.reg label{font-weight:800;font-size:14px;color:var(--muted)}
+.reg input,.reg textarea{width:100%;border-radius:14px;border:2px solid var(--line);background:var(--surface2);color:var(--fg);padding:12px;font:600 16px var(--font)}
+.reg textarea{min-height:110px;resize:vertical}
+.entry{background:var(--surface);border:2px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.entry .when{font-weight:900;font-size:15px;color:var(--violet)}
+.entry p{margin:0;font-size:15px;font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere}
+.entry .act{display:flex;gap:8px;margin-top:6px}
+.entry .act button{flex:1;min-height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface2);color:var(--fg);font:800 14px var(--font)}
+.entry .act button.del[data-armed]{background:var(--coral);color:#fff;border-color:var(--coral)}
+.offline{font-size:13px;font-weight:700;color:var(--muted);text-align:center;margin:0}
+</style>
 </head>
 <body>
+<div class="splash" id="splash" role="dialog" aria-label="Abertura do Gestar Seguro">
+  <span class="bub" style="width:90px;height:90px;left:-30px;bottom:12%;background:#F5B82E" aria-hidden="true"></span>
+  <span class="bub" style="width:36px;height:36px;right:12%;bottom:22%;background:#1E8C7A" aria-hidden="true"></span>
+  <svg class="doll" viewBox="0 0 200 270" role="img" aria-label="Ilustração de uma gestante sorrindo com a mão na barriga">
+  <defs>
+    <radialGradient id="bg1" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFB3D2"/><stop offset="1" stop-color="#EE6FA3"/></radialGradient>
+  </defs>
+  <ellipse class="d-shadow" cx="100" cy="258" rx="46" ry="7" fill="#000" opacity=".18"/>
+  <g class="d-body">
+    <rect x="80" y="206" width="13" height="40" rx="6.5" fill="#D9A07A"/>
+    <rect x="107" y="206" width="13" height="40" rx="6.5" fill="#D9A07A"/>
+    <ellipse cx="85" cy="248" rx="13" ry="7" fill="#5A3AB8"/>
+    <ellipse cx="115" cy="248" rx="13" ry="7" fill="#5A3AB8"/>
+    <path d="M70 124 Q100 112 130 124 L150 206 Q100 222 50 206 Z" fill="#EE6FA3"/>
+    <g class="d-belly"><circle cx="103" cy="170" r="42" fill="url(#bg1)"/>
+      <path d="M95 166 c0-5 7-7 9.5-2 c2.5-5 9.5-3 9.5 2 c0 6-9.5 11-9.5 11 s-9.5-5-9.5-11z" fill="#fff" opacity=".9"/></g>
+    <path d="M66 205 Q100 218 140 205" fill="none" stroke="#fff" stroke-width="3" opacity=".5" stroke-linecap="round"/>
+    <path d="M76 128 C64 150 62 168 66 184" fill="none" stroke="#D9A07A" stroke-width="11" stroke-linecap="round"/>
+    <path d="M124 128 C136 140 132 150 118 152" fill="none" stroke="#D9A07A" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="66" cy="186" r="7" fill="#D9A07A"/><circle cx="116" cy="152" r="7.5" fill="#D9A07A"/>
+    <rect x="93" y="108" width="14" height="14" rx="5" fill="#D9A07A"/>
+    <g class="d-head">
+      <circle cx="100" cy="34" r="17" fill="#3A2340"/>
+      <circle cx="100" cy="76" r="47" fill="#3A2340"/>
+      <circle cx="100" cy="80" r="40" fill="#E8B48E"/>
+      <path d="M60 74 Q66 40 100 38 Q136 40 140 74 Q126 56 104 58 Q88 50 60 74Z" fill="#3A2340"/>
+      <g class="d-eyes"><ellipse cx="86" cy="84" rx="4.2" ry="5.2" fill="#2A1F45"/><ellipse cx="114" cy="84" rx="4.2" ry="5.2" fill="#2A1F45"/>
+        <circle cx="87.5" cy="82" r="1.4" fill="#fff"/><circle cx="115.5" cy="82" r="1.4" fill="#fff"/></g>
+      <ellipse cx="77" cy="95" rx="7" ry="4.5" fill="#F27BA0" opacity=".55"/><ellipse cx="123" cy="95" rx="7" ry="4.5" fill="#F27BA0" opacity=".55"/>
+      <path d="M92 98 Q100 106 108 98" fill="none" stroke="#2A1F45" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="137" cy="62" r="6" fill="#F5B82E"/><circle cx="131" cy="58" r="4" fill="#F5B82E"/>
+    </g>
+  </g>
+  <g class="d-hearts" fill="#FF7FB5">
+    <path class="h1" d="M150 120 c0-5 7-7 9.5-2 c2.5-5 9.5-3 9.5 2 c0 6-9.5 11-9.5 11 s-9.5-5-9.5-11z"/>
+    <path class="h2" d="M30 140 c0-4 5.5-5.5 7.5-1.5 c2-4 7.5-2.5 7.5 1.5 c0 5-7.5 9-7.5 9 s-7.5-4-7.5-9z" fill="#FFD66B"/>
+    <path class="h3" d="M160 70 c0-4 5.5-5.5 7.5-1.5 c2-4 7.5-2.5 7.5 1.5 c0 5-7.5 9-7.5 9 s-7.5-4-7.5-9z" fill="#fff"/>
+  </g>
+</svg>
+
+  <h1>Gestar Seguro</h1>
+  <p>Seu parto, seus direitos</p>
+  <button class="go" id="splashGo">Entrar</button>
+</div>
 <div class="wrap">
 
   <header class="hero">
@@ -163,7 +255,7 @@ h2{font-weight:900;font-size:27px;line-height:1.12;margin:0;letter-spacing:-.01e
     <h1>Seu parto, seus direitos</h1>
     <p>Violência obstétrica: aprenda a reconhecer e saiba como se proteger.</p>
     <nav aria-label="Atalhos">
-      <a href="#video">Vídeo</a><a href="#sinais">Sinais</a><a href="#instrumentos">Instrumentos</a><a href="#teste">Teste</a><a href="#leis">Leis</a><a href="#ajuda">Ajuda</a>
+      <a href="#video">Vídeo</a><a href="#sinais">Sinais</a><a href="#instrumentos">Instrumentos</a><a href="#teste">Teste</a><a href="#leis">Leis</a><a href="#ajuda">Ajuda</a><a href="#registro">Registro</a>
     </nav>
   </header>
 
@@ -287,10 +379,10 @@ h2{font-weight:900;font-size:27px;line-height:1.12;margin:0;letter-spacing:-.01e
     <span class="kicker"><i>☎</i>Peça ajuda</span>
     <h2>Aconteceu com você?</h2>
     <div class="nums">
-      <button class="nb wide sos" data-copy="190"><b>190</b><span>Polícia Militar · Em perigo agora? Violência acontecendo? Ligue já.</span><small>Toque para copiar</small></button>
-      <button class="nb" style="--c:var(--violet)" data-copy="180"><b>180</b><span>Central de Atendimento à Mulher, denúncias e orientação, 24 h</span><small>Toque para copiar</small></button>
-      <button class="nb" style="--c:var(--teal)" data-copy="136"><b>136</b><span>Disque Saúde, Ouvidoria do SUS</span><small>Toque para copiar</small></button>
-      <button class="nb wide" style="--c:var(--pink)" data-copy="08007019656"><b style="font-size:28px">0800 701 9656</b><span>ANS, se você tem plano de saúde</span><small>Toque para copiar</small></button>
+      <a class="nb wide sos" href="tel:190"><b>190</b><span>Polícia Militar · Em perigo agora? Violência acontecendo? Ligue já.</span><small>Toque para ligar</small></a>
+      <a class="nb" style="--c:var(--violet)" href="tel:180"><b>180</b><span>Central de Atendimento à Mulher, denúncias e orientação, 24 h</span><small>Toque para ligar</small></a>
+      <a class="nb" style="--c:var(--teal)" href="tel:136"><b>136</b><span>Disque Saúde, Ouvidoria do SUS</span><small>Toque para ligar</small></a>
+      <a class="nb wide" style="--c:var(--pink)" href="tel:08007019656"><b style="font-size:28px">0800 701 9656</b><span>ANS, se você tem plano de saúde</span><small>Toque para ligar</small></a>
     </div>
     <div class="steps">
       <div class="step" style="--c:var(--violet)"><i>1</i>Peça a cópia do seu prontuário. Ele é seu e é grátis.</div>
@@ -300,6 +392,21 @@ h2{font-weight:900;font-size:27px;line-height:1.12;margin:0;letter-spacing:-.01e
     </div>
   </section>
 
+
+  <section class="sec" id="registro" style="--c:var(--coral)">
+    <span class="kicker"><i>✎</i>Meu registro</span>
+    <h2>Anote o que aconteceu</h2>
+    <p class="sub">Registre logo, enquanto lembra bem. Fica salvo só neste celular e serve como prova para denunciar.</p>
+    <form class="reg" id="regForm" novalidate>
+      <label for="rData">Data e hora</label><input id="rData" type="datetime-local">
+      <label for="rLocal">Hospital ou local</label><input id="rLocal" maxlength="120" placeholder="Ex.: Maternidade Santa Clara, sala de parto">
+      <label for="rPessoas">Quem atendeu (nomes ou funções)</label><input id="rPessoas" maxlength="200" placeholder="Ex.: Dr. Paulo, enfermeira Ana">
+      <label for="rTest">Testemunhas ou acompanhante</label><input id="rTest" maxlength="200" placeholder="Ex.: meu marido João">
+      <label for="rFato">O que aconteceu</label><textarea id="rFato" maxlength="4000" placeholder="Descreva com suas palavras: o que fizeram, o que falaram, se pediram sua autorização."></textarea>
+      <button class="btn" type="submit">Salvar registro</button>
+    </form>
+    <div id="regList" style="display:flex;flex-direction:column;gap:10px"></div>
+  </section>
   <section class="sec" style="--c:var(--violet)">
     <span class="kicker"><i>♥</i>Seu escudo</span>
     <h2>Mini plano de parto</h2>
@@ -319,6 +426,17 @@ h2{font-weight:900;font-size:27px;line-height:1.12;margin:0;letter-spacing:-.01e
       <a href="https://www2.oabrs.org.br/jornalDaOrdem/justica-reconhece-violencia-obstetrica-e-fixa-indenizacao/52605" target="_blank" rel="noopener">Justiça reconhece violência obstétrica em parto com fórceps sem informação (OAB-RS)</a>
     </div>
   </section>
+</div>
+<button class="fab-sos" id="sosBtn" aria-label="Emergência: ligar para ajuda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>SOS</button>
+<div class="sos-scrim" id="sosScrim" hidden>
+  <div class="sos-sheet" role="dialog" aria-label="Pedir ajuda">
+    <h3>Pedir ajuda agora</h3>
+    <a class="call" style="--c:#C0362C" href="tel:190"><b>190</b><span>Polícia Militar. Em perigo ou violência acontecendo.</span></a>
+    <a class="call" style="--c:#6A47C9" href="tel:180"><b>180</b><span>Central de Atendimento à Mulher. Orientação e denúncia, 24 h.</span></a>
+    <a class="call" style="--c:#1E8C7A" href="tel:136"><b>136</b><span>Disque Saúde, Ouvidoria do SUS.</span></a>
+    <button class="sbtn" id="quickExit">Saída rápida: esconder o app</button>
+    <button class="sbtn" id="sosClose">Fechar</button>
+  </div>
 </div>
 <div class="toast" id="toast" hidden></div>
 
@@ -400,6 +518,64 @@ $("planCopy").onclick = () => {
 };
 document.querySelectorAll("[data-copy]").forEach(b => b.onclick = () => copy(b.dataset.copy, `Número ${b.dataset.copy} copiado`));
 })();
+
+/* abertura */
+(() => {
+  const sp = document.getElementById("splash");
+  let seen = false; try { seen = sessionStorage.getItem("gs-splash") === "1"; } catch {}
+  const close = () => { sp.classList.add("out"); try { sessionStorage.setItem("gs-splash","1"); } catch {} setTimeout(()=>sp.hidden=true, 600); };
+  if (seen) { sp.hidden = true; return; }
+  document.getElementById("splashGo").onclick = close;
+  sp.addEventListener("click", e => { if (e.target === sp) close(); });
+  setTimeout(close, 3600);
+})();
+/* emergência */
+(() => {
+  const sc = document.getElementById("sosScrim");
+  document.getElementById("sosBtn").onclick = () => { sc.hidden = false; };
+  document.getElementById("sosClose").onclick = () => { sc.hidden = true; };
+  sc.addEventListener("click", e => { if (e.target === sc) sc.hidden = true; });
+  document.getElementById("quickExit").onclick = () => { location.replace("https://www.google.com/search?q=previs%C3%A3o+do+tempo"); };
+})();
+/* meu registro */
+(() => {
+  const KEY = "gs-registros";
+  const $ = id => document.getElementById(id);
+  const esc = t => String(t||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  let list = []; try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); return true; } catch { return false; } };
+  const fmt = v => { if (!v) return "Data não informada"; const d = new Date(v); return isNaN(d) ? v : d.toLocaleString("pt-BR",{dateStyle:"long",timeStyle:"short"}); };
+  const asText = r => `REGISTRO DE OCORRÊNCIA\nData e hora: ${fmt(r.data)}\nLocal: ${r.local||"-"}\nQuem atendeu: ${r.pessoas||"-"}\nTestemunhas/acompanhante: ${r.test||"-"}\n\nO que aconteceu:\n${r.fato}\n\n(Registrado no app Gestar Seguro em ${new Date(r.criado).toLocaleString("pt-BR")})`;
+  function toast(m){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(()=>t.hidden=true,2400); }
+  function draw(){
+    $("regList").innerHTML = list.length ? list.slice().reverse().map(r => `<div class="entry"><span class="when">${esc(fmt(r.data))}</span>${r.local?`<p><b>Local:</b> ${esc(r.local)}</p>`:""}${r.pessoas?`<p><b>Quem atendeu:</b> ${esc(r.pessoas)}</p>`:""}${r.test?`<p><b>Testemunhas:</b> ${esc(r.test)}</p>`:""}<p>${esc(r.fato)}</p><div class="act"><button data-share="${r.id}">Enviar</button><button data-copyreg="${r.id}">Copiar</button><button class="del" data-del="${r.id}">Excluir</button></div></div>`).join("")
+      : `<p class="offline">Nenhum registro ainda.</p>`;
+  }
+  $("regForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const fato = $("rFato").value.trim();
+    if (!fato) { toast("Descreva o que aconteceu antes de salvar"); $("rFato").focus(); return; }
+    list.push({ id: Date.now().toString(36), data: $("rData").value, local: $("rLocal").value.trim(), pessoas: $("rPessoas").value.trim(), test: $("rTest").value.trim(), fato, criado: Date.now() });
+    if (!save()) { toast("Este navegador não deixou salvar. Copie o texto antes de sair."); }
+    else toast("Registro salvo neste celular");
+    $("regForm").reset(); draw();
+  });
+  $("regList").addEventListener("click", async e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const id = b.dataset.share || b.dataset.copyreg || b.dataset.del; const r = list.find(x => x.id === id); if (!r) return;
+    if (b.dataset.del) {
+      if (!b.dataset.armed) { b.dataset.armed = "1"; b.textContent = "Confirmar"; return; }
+      list = list.filter(x => x.id !== id); save(); draw(); toast("Registro excluído"); return;
+    }
+    if (b.dataset.share && navigator.share) { try { await navigator.share({ title: "Registro de ocorrência", text: asText(r) }); return; } catch (err) { if (err && err.name === "AbortError") return; } }
+    try { await navigator.clipboard.writeText(asText(r)); toast("Registro copiado"); } catch { toast("Não deu para copiar. Selecione o texto e copie."); }
+  });
+  draw();
+})();
+/* offline */
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
 </script>
 
 </body>
